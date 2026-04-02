@@ -22,11 +22,11 @@ async function main() {
   console.log("Admin created:", admin.email);
 
   const sampleWoods = [
-    { name: "Нарс #001", species: "Нарс", lat: 49.335, lng: 106.495, price: 50000, diameter: 30, height: 15 },
-    { name: "Шинэс #002", species: "Шинэс", lat: 49.340, lng: 106.510, price: 75000, diameter: 45, height: 20 },
-    { name: "Хуш #003", species: "Хуш", lat: 49.325, lng: 106.480, price: 120000, diameter: 60, height: 25 },
-    { name: "Хус #004", species: "Хус", lat: 49.330, lng: 106.520, price: 35000, diameter: 20, height: 12 },
-    { name: "Нарс #005", species: "Нарс", lat: 49.345, lng: 106.490, price: 65000, diameter: 35, height: 18 },
+    { name: "Нарс #001", species: "Нарс", lat: 50.315, lng: 106.495, price: 50000, diameter: 30, height: 15 },
+    { name: "Шинэс #002", species: "Шинэс", lat: 50.320, lng: 106.510, price: 75000, diameter: 45, height: 20 },
+    { name: "Хуш #003", species: "Хуш", lat: 50.305, lng: 106.480, price: 120000, diameter: 60, height: 25 },
+    { name: "Хус #004", species: "Хус", lat: 50.310, lng: 106.520, price: 35000, diameter: 20, height: 12 },
+    { name: "Нарс #005", species: "Нарс", lat: 50.325, lng: 106.490, price: 65000, diameter: 35, height: 18 },
   ];
 
   for (const w of sampleWoods) {

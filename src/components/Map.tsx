@@ -21,10 +21,10 @@ type Wood = {
   owner?: { id: string; name: string; phone?: string };
 };
 
-const ALTANBULAG_CENTER: [number, number] = [49.33, 106.5];
+const ALTANBULAG_CENTER: [number, number] = [50.31, 106.50];
 const ALTANBULAG_BOUNDS: L.LatLngBoundsExpression = [
-  [49.20, 106.30],
-  [49.45, 106.70],
+  [50.20, 106.35],
+  [50.42, 106.65],
 ];
 
 const availableIcon = new L.Icon({
