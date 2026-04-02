@@ -78,7 +78,11 @@ export default function WoodDetail({
     <aside className="absolute top-6 bottom-6 right-6 w-[400px] z-30 glass-panel rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-white/40">
       {/* Header */}
       <div className="relative h-48 w-full bg-surface-container-high">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-container/60"></div>
+        {wood.photos && wood.photos.length > 0 ? (
+          <img src={wood.photos[0]} alt={wood.name} className="w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-container/60"></div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <button
           onClick={onClose}

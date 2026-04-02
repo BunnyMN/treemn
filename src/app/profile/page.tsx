@@ -13,6 +13,7 @@ type Wood = {
   status: string;
   lat: number;
   lng: number;
+  photos: string[];
   owner?: { id: string; name: string };
 };
 
@@ -121,9 +122,13 @@ export default function ProfilePage() {
             {woods.map((wood) => (
               <div key={wood.id} className="bg-surface-container-lowest rounded-xl overflow-hidden group">
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br from-primary/20 to-primary-container/10">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-8xl text-primary/20" style={{ fontVariationSettings: "'FILL' 1" }}>park</span>
-                  </div>
+                  {wood.photos && wood.photos.length > 0 ? (
+                    <img src={wood.photos[0]} alt={wood.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-8xl text-primary/20" style={{ fontVariationSettings: "'FILL' 1" }}>park</span>
+                    </div>
+                  )}
                   <div className="absolute top-4 left-4">
                     <span className="bg-surface-container-lowest/90 backdrop-blur text-primary text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">Идэвхтэй</span>
                   </div>

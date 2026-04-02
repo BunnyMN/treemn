@@ -50,7 +50,14 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-stretch overflow-hidden">
       {/* Left: Brand Canvas */}
       <section className="hidden lg:flex flex-col justify-between w-1/2 p-12 relative bg-primary overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary via-primary-container/60 to-primary opacity-90"></div>
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=1200&h=1600&fit=crop"
+            alt="Forest"
+            className="w-full h-full object-cover opacity-50 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-transparent to-primary-container opacity-80"></div>
+        </div>
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-10 h-10 bg-primary-fixed rounded-xl flex items-center justify-center">
             <span className="material-symbols-outlined text-primary font-bold">park</span>

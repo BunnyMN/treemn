@@ -176,7 +176,14 @@ export default function AdminPage() {
 
           {/* HUD Map Panel */}
           <section className="col-span-12 lg:col-span-7 bg-surface-container rounded-xl overflow-hidden relative min-h-[300px]">
-            <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 to-primary-container/5"></div>
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=800&fit=crop"
+                alt="Forest satellite"
+                className="w-full h-full object-cover grayscale opacity-40"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-60"></div>
+            </div>
             <div className="relative z-10 p-6 flex flex-col h-full justify-between">
               <div className="flex justify-between items-start">
                 <div className="backdrop-blur-md bg-surface-container-lowest/80 p-3 rounded-lg border border-outline-variant/15">
