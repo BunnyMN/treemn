@@ -34,32 +34,45 @@ export async function POST(
     },
   });
 
-  const invoiceCode = process.env.QPAY_INVOICE_CODE || "";
-  const callbackUrl = `${process.env.NEXTAUTH_URL}/api/qpay/callback?txId=${transaction.id}`;
+  try {
+    const invoiceCode = process.env.QPAY_INVOICE_CODE || "";
+    const callbackUrl = `${process.env.NEXTAUTH_URL}/api/qpay/callback?txId=${transaction.id}`;
 
-  const invoice = await createInvoice({
-    invoiceCode,
-    senderCode: transaction.id,
-    amount: wood.price,
-    description: `${wood.name} мод худалдан авах - ${wood.certificateNo}`,
-    callbackUrl,
-  });
-
-  await prisma.payment.create({
-    data: {
+    const invoice = await createInvoice({
+      invoiceCode,
+      senderCode: transaction.id,
       amount: wood.price,
-      qpayInvoiceId: invoice.invoice_id,
-      qpayQrCode: invoice.qr_text,
-      qpayUrl: invoice.qr_image,
-      qpayUrls: invoice.urls,
-      transactionId: transaction.id,
-    },
-  });
+      description: `${wood.name} мод худалдан авах - ${wood.certificateNo}`,
+      callbackUrl,
+    });
 
-  return NextResponse.json({
-    transactionId: transaction.id,
-    qrImage: invoice.qr_image,
-    qrText: invoice.qr_text,
-    urls: invoice.urls,
-  });
+    await prisma.payment.create({
+      data: {
+        amount: wood.price,
+        qpayInvoiceId: invoice.invoice_id,
+        qpayQrCode: invoice.qr_text,
+        qpayUrl: invoice.qr_image,
+        qpayUrls: invoice.urls,
+        transactionId: transaction.id,
+      },
+    });
+
+    return NextResponse.json({
+      transactionId: transaction.id,
+      qrImage: invoice.qr_image,
+      qrText: invoice.qr_text,
+      urls: invoice.urls,
+    });
+  } catch (e) {
+    // Cancel the transaction if QPay fails
+    await prisma.transaction.update({
+      where: { id: transaction.id },
+      data: { status: "CANCELLED" },
+    });
+    console.error("QPay error:", e);
+    return NextResponse.json(
+      { error: `QPay төлбөрийн систем алдаа: ${(e as Error).message}` },
+      { status: 502 }
+    );
+  }
 }
