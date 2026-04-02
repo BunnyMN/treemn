@@ -22,6 +22,10 @@ type Wood = {
 };
 
 const ALTANBULAG_CENTER: [number, number] = [49.33, 106.5];
+const ALTANBULAG_BOUNDS: L.LatLngBoundsExpression = [
+  [49.20, 106.30],
+  [49.45, 106.70],
+];
 
 const availableIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
@@ -66,13 +70,22 @@ export default function Map({
   return (
     <MapContainer
       center={ALTANBULAG_CENTER}
-      zoom={12}
+      zoom={13}
+      minZoom={11}
+      maxZoom={18}
+      maxBounds={ALTANBULAG_BOUNDS}
+      maxBoundsViscosity={1.0}
       className="w-full h-full"
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='Tiles &copy; Esri'
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        maxZoom={18}
+      />
+      <TileLayer
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+        maxZoom={18}
       />
       <FitBounds woods={woods} />
       {woods.map((wood) => (
