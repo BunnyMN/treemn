@@ -1,0 +1,15 @@
+services:
+  treemn:
+    build: .
+    container_name: treemn_web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3002:3000"
+    env_file:
+      - .env.production
+    networks:
+      - tr_network
+
+networks:
+  tr_network:
+    external: true

@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum WoodStatus {
+  AVAILABLE
+  SOLD
+  TRANSFERRED
+}
+
+enum TransactionType {
+  SALE
+  TRANSFER
+  EXCHANGE
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  ownedWoods   Wood[]        @relation("WoodOwner")
+  soldTx       Transaction[] @relation("Seller")
+  boughtTx     Transaction[] @relation("Buyer")
+
+  @@map("users")
+}
+
+model Wood {
+  id              String     @id @default(cuid())
+  name            String
+  species         String
+  description     String?
+  diameter        Float?
+  height          Float?
+  lat             Float
+  lng             Float
+  price           Int
+  status          WoodStatus @default(AVAILABLE)
+  photos          String[]
+  certificateNo   String     @unique @map("certificate_no")
+  qrCode          String?    @map("qr_code")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+
+  ownerId         String?    @map("owner_id")
+  owner           User?      @relation("WoodOwner", fields: [ownerId], references: [id])
+
+  transactions    Transaction[]
+
+  @@map("woods")
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  type      TransactionType
+  status    TransactionStatus @default(PENDING)
+  price     Int?
+  note      String?
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  woodId    String            @map("wood_id")
+  wood      Wood              @relation(fields: [woodId], references: [id])
+
+  sellerId  String?           @map("seller_id")
+  seller    User?             @relation("Seller", fields: [sellerId], references: [id])
+
+  buyerId   String            @map("buyer_id")
+  buyer     User              @relation("Buyer", fields: [buyerId], references: [id])
+
+  payment   Payment?
+
+  @@map("transactions")
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  amount        Int
+  status        PaymentStatus @default(PENDING)
+  qpayInvoiceId String?      @unique @map("qpay_invoice_id")
+  qpayQrCode    String?      @map("qpay_qr_code")
+  qpayUrl       String?      @map("qpay_url")
+  qpayUrls      Json?        @map("qpay_urls")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+
+  transactionId String       @unique @map("transaction_id")
+  transaction   Transaction  @relation(fields: [transactionId], references: [id])
+
+  @@map("payments")
+}
