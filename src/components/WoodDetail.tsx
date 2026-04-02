@@ -24,7 +24,7 @@ type Wood = {
 type PaymentResult = {
   transactionId: string;
   qrImage: string;
-  urls: { name: string; link: string }[];
+  urls: { name: string; description: string; logo: string; link: string }[];
 };
 
 export default function WoodDetail({
@@ -182,13 +182,31 @@ export default function WoodDetail({
                 <img src={`data:image/png;base64,${payment.qrImage}`} alt="QPay QR" className="w-48 h-48 rounded-lg" />
               </div>
             )}
-            {payment.urls && (
-              <div className="grid grid-cols-2 gap-2">
-                {payment.urls.map((u) => (
-                  <a key={u.name} href={u.link} className="bg-surface-container-high text-on-surface text-center py-2 rounded text-xs font-bold hover:bg-surface-container-highest transition-colors">
-                    {u.name}
-                  </a>
-                ))}
+            {payment.urls && payment.urls.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs text-on-surface-variant text-center font-medium">Банкны апп-аар төлөх</p>
+                <div className="grid grid-cols-4 gap-3">
+                  {payment.urls.map((u) => (
+                    <a
+                      key={u.name}
+                      href={u.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-surface-container-high transition-colors"
+                    >
+                      {u.logo ? (
+                        <img src={u.logo} alt={u.name} className="w-10 h-10 rounded-lg" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+                          <span className="material-symbols-outlined text-sm">account_balance</span>
+                        </div>
+                      )}
+                      <span className="text-[9px] text-on-surface-variant text-center font-medium leading-tight line-clamp-2">
+                        {u.description || u.name}
+                      </span>
+                    </a>
+                  ))}
+                </div>
               </div>
             )}
             <button
