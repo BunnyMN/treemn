@@ -47,7 +47,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-stretch overflow-hidden -ml-64">
+    <main className="min-h-screen flex items-stretch overflow-hidden">
       {/* Left: Brand Canvas */}
       <section className="hidden lg:flex flex-col justify-between w-1/2 p-12 relative bg-primary overflow-hidden">
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary via-primary-container/60 to-primary opacity-90"></div>
