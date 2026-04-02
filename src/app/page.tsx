@@ -27,7 +27,7 @@ export default function HomePage() {
   const [selectedWood, setSelectedWood] = useState<Wood | null>(null);
 
   return (
-    <div className="flex-1 relative">
+    <div className="relative" style={{ height: "calc(100vh - 56px)" }}>
       <Map onSelectWood={setSelectedWood} />
       {selectedWood && (
         <WoodDetail wood={selectedWood} onClose={() => setSelectedWood(null)} />
