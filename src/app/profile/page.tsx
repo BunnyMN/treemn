@@ -33,9 +33,13 @@ export default function ProfilePage() {
     if (session) {
       fetch("/api/woods")
         .then((r) => r.json())
-        .then((all: (Wood & { owner?: { id: string } })[]) =>
-          setWoods(all.filter((w) => w.owner?.id === session.user.id))
-        );
+        .then((all: (Wood & { owner?: { id: string } })[]) => {
+          if (session.user.role === "ADMIN") {
+            setWoods(all);
+          } else {
+            setWoods(all.filter((w) => w.owner?.id === session.user.id));
+          }
+        });
     }
   }, [session]);
 
@@ -52,7 +56,11 @@ export default function ProfilePage() {
       setTransferId(null);
       setTransferEmail("");
       const all = await fetch("/api/woods").then((r) => r.json());
-      setWoods(all.filter((w: Wood & { owner?: { id: string } }) => w.owner?.id === session?.user.id));
+      if (session?.user.role === "ADMIN") {
+        setWoods(all);
+      } else {
+        setWoods(all.filter((w: Wood & { owner?: { id: string } }) => w.owner?.id === session?.user.id));
+      }
     } else {
       setTransferMsg(data.error);
     }
